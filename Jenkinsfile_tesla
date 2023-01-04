@@ -1,5 +1,5 @@
 node{
-  def mavenHome = tool name: 'maven3.8.6'
+  def mavenHome = tool name: 'Maven3.8.6'
   stage('1cloneCode'){
     git "https://github.com/LandmakTechnology/maven-web-application"
   }
@@ -19,8 +19,7 @@ node{
   } 
   stage('5deploy2UAT'){
     sh "echo 'deploy to UAT'  "
-    deploy adapters: [tomcat8(credentialsId: 'tomcat-credentials', path: '', url: 'http://35.170.249.131:8080/')], contextPath: null, war: 'target/*war'
-  }
+    deploy adapters: [tomcat9(credentialsId: 'Tomcat-credentials', path: '', url: 'http://54.237.202.103:8177/')], contextPath: null, war: 'target/*war'
   stage('6approvalGate'){
     sh "echo 'ready for review' "
     timeout(time:5, unit:'DAYS') {
@@ -29,7 +28,7 @@ node{
   }
   stage('7deploy2Prod'){
     sh "sleep  50"
-    deploy adapters: [tomcat8(credentialsId: 'tomcat-credentials', path: '', url: 'http://35.170.249.131:8080/')], contextPath: null, war: 'target/*war'
+    deploy adapters: [tomcat9(credentialsId: 'Tomcat-credentials', path: '', url: 'http://54.237.202.103:8177/')], contextPath: null, war: 'target/*war'
   }
   stage('8emailNotification'){
     emailext body: '''Hi All,
